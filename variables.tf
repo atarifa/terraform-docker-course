@@ -1,9 +1,9 @@
 
 variable "image" {
-  type = map
+  type        = map(any)
   description = "image for container"
-  default = { 
-    dev = "nodered/node-red:latest"
+  default = {
+    dev  = "nodered/node-red:latest"
     prod = "nodered/node-red:latest-minimal"
   }
 }
@@ -15,7 +15,7 @@ variable "number_count" {
 }
 
 variable "ext_port" {
-  type    = map
+  type = map(any)
 
   validation {
     condition     = max(var.ext_port["dev"]...) <= 65535 && min(var.ext_port["dev"]...) >= 1980
