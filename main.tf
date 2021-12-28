@@ -9,19 +9,17 @@ module "image" {
   image_in = var.image[terraform.workspace]
 }
 
-resource "docker_container" "nodered_container" {
+module "container" {
+  source = "./container"
   depends_on = [null_resource.dockervol]
   count = local.container_count
-  name  = join("-", ["nodered", terraform.workspace, random_string.random[count.index].result])
-  image = module.image.image_out
-  ports {
-    internal = 1880
-    external = var.ext_port[terraform.workspace][count.index]
-  }
-  volumes {
-    container_path = "/data"
-    host_path = "${path.cwd}/noderedvol"
-  }
+  name_in  = join("-", ["nodered", terraform.workspace, random_string.random[count.index].result])
+  image_in = module.image.image_out
+  int_port_in = 1880
+  ext_port_in = var.ext_port[terraform.workspace][count.index]
+  container_path_in = "/data"
+  host_path_in = "${path.cwd}/noderedvol"
+  
 }
 
 resource "random_string" "random" {
