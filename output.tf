@@ -9,6 +9,6 @@
 # }
 
 output "application_access" {
-    value = [for x in module.container[*]: x]
-    description = "The name of the socket for each application"
+  value       = [for x in module.container[*] : x]
+  description = "The name of the socket for each application"
 }
